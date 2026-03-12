@@ -37,6 +37,25 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+// Lägger till relationerna mellan tabellerna
+// En user kan ha många kundkorgar.
+db.cart.belongsTo(db.users, { foreignKey: {allowNull: false } });
+db.users.hasMany(db.cart, {
+  allowNull: false,
+  onDelete: "CASCADE"
+});
+
+// En produkt kan ha många ratings
+db.ratings.belongsTo(db.products);
+db.products.hasMany(db.ratings, {
+  allowNull: false,
+  onDelete: "CASCADE"
+});
+
+// Många till många mellan cart och product.
+db.products.belongsToMany(db.cart, { through: db.cart_row});
+db.cart.belongsToMany(db.products, { through: db.cart_row});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
