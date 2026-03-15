@@ -73,14 +73,14 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    const user = req.params.id;
+    const user = req.body;
     const invalidData = validate(user, constraints);
-    const id = user.id;
+    const id = req.params.id;
     if(invalidData || !id) {
         res.status(400).json(invalidData || "Id saknas");
     } else {
       db.users.update(user, {
-        where: {id: user.id}
+        where: { id: id }
     })
     .then((result) => {
       res.send(result);
