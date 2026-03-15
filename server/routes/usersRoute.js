@@ -16,15 +16,21 @@ const constraints = {
         }
     },
     firstName: {
-        presence: { allowEmpty: false, message: "måste fyllas i" }
+        length: {
+        minimum: 2,
+        maximum: 50,
+        tooShort: "^Förnamnet måste vara minst %{count} tecken lång",
+        tooLong: "^Förnamnet får vara högst %{count} tecken lång"
+      }
     },
     lastName: {
-        presence: { allowEmpty: false, message: "måste fyllas i" },
         length: {
-            minimum: 3,
-            message: "måste vara minst 3 tecken"
-        }
+        minimum: 2,
+        maximum: 50,
+        tooShort: "^Efternamnet måste vara minst %{count} tecken lång",
+        tooLong: "^Efternamnet får vara högst %{count} tecken lång"
     }
+  }
 };
 
 router.get('/:id/products', (req, res) => {
