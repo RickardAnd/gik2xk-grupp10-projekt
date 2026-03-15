@@ -24,7 +24,7 @@ const products = [
     }
 ];
 
-async function seed() {
+async function testData() {
     try {
         // Rensa tabellen först så vi inte får dubbletter varje gång vi kör filen
         await db.product.destroy({ where: {}, truncate: true });
