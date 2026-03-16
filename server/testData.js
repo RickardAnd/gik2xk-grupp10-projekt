@@ -27,10 +27,10 @@ const products = [
 async function testData() {
     try {
         // Rensa tabellen först så vi inte får dubbletter varje gång vi kör filen
-        await db.product.destroy({ where: {}, truncate: true });
+        await db.products.destroy({ where: {}, truncate: true });
         
         // Lägg in tröjorna
-        await db.product.bulkCreate(products);
+        await db.products.bulkCreate(products);
         
         console.log("Det gick bra.");
         process.exit();
