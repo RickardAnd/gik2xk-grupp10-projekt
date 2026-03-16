@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => {
 })
 
 // Radera product
-router.delete('/', (req, res) => {
+router.delete('/:id', (req, res) => {
         const id = req.params.id;
 
         productService.destroy(id).then((result) => {
