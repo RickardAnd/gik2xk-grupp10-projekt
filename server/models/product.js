@@ -19,14 +19,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        size: {
-            type: DataTypes.STRING(10),
-            allowNull: false,
-            validate: {
-                len: [1, 4]
-            }
-        },
-
         imageUrl: {
             type: DataTypes.STRING(255)
         },
