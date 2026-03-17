@@ -17,14 +17,14 @@ async function addToCart (userId, productId) {
             where: { userId: userId }
         });  
 
-        // kollar om produkten redan finns
+        // kollar om produkten redan finnsi cart_row. Ska då matcha cartId från cart och productId från products.
         const existingCartRow = await db.cart_row.findOne({
             where: {
                 cartId: cart.id,
                 productId: productId
             }
     }) 
-    // Om den finns så öka antalet med 1. quantity i tabellen cart_row
+    // Om den finns så öka antalet med 1. quantity i tabellen cart_row. save sparar i databasen
     if(existingCartRow) {
         existingCartRow.quantity += 1;
         await existingCartRow.save();
@@ -32,7 +32,7 @@ async function addToCart (userId, productId) {
     } else {
         // Om den inte redan finns så skapar vi en ny rad
         const newRow = await db.cart_row.create({
-            cartId: cart.Id,
+            cartId: cart.id,
             productId: productId,
             quantity: 1
         })

@@ -10,7 +10,7 @@ router.post("/add", async (req, res) => {
     res.status(result.status).json(result.data);
 })
 
-// hämtar kundvagnen. På id
+// hämtar kundvagnen. /cart/user/:id
 router.get("/user/:id", async (req, res) => {
     const userId = req.params.id;
     const result = await cartService.getCartByUserId(userId);
