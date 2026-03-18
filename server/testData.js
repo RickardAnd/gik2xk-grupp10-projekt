@@ -23,9 +23,11 @@ const products = [
         stock: 100
     }
 ];
+// Lägg till ett seed för några användare också.
 
 async function testData() {
     try {
+        
         await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
 
         // Rensa tabellen först så vi inte får dubbletter varje gång vi kör filen
