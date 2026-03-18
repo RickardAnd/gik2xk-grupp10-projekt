@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => {
 })
 
 // Radera product
-router.delete('/', (req, res) => {
+router.delete('/:id', (req, res) => {
         const id = req.params.id;
 
         productService.destroy(id).then((result) => {
@@ -41,5 +41,15 @@ router.put('/:id', (req, res) => {
         res.status(result.status).json(result.data);
     });
 });
+
+// Lägger till betyg till produkt
+router.post("/:id/addrating", (req, res) => {
+    const rating = req.body;
+    const productId = req.params.id;
+
+    productService.addRating(productId, rating).then((result) => {
+        res.status(result.status).json(result.data);
+        });
+})
 
 module.exports = router;

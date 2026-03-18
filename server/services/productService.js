@@ -48,7 +48,9 @@ async function getById(id) {
             where: { id },
             // Vi tar bort tag och comment, men behåller user om ni vill visa 
             // vem som lagt upp produkten. Annars kan include tas bort helt.
-            include: [db.users] 
+            
+            // Kommenterade bort -FD
+            //include: [db.users] 
         });
 
         if (!product) {
@@ -57,7 +59,7 @@ async function getById(id) {
 
         // Om du har en formateringsfunktion för produkter, använd den här.
         // Annars kan du returnera product direkt.
-        return createResponseOk(product); 
+        return createResponseSuccess(product); // Ändrad till sucsess iställer för ok
 
     } catch (error) {
         console.error("GetById error:", error);
@@ -132,11 +134,27 @@ async function destroy(id) {
     }
 }
 
+// Funktion för att lägga till betyg
+async function addRating(productId, rating) {
+    
+    if(!productId) {
+        return createResponseError(422, "Produkt Id är obligatoriskt");
+    }
+    try {
+        rating.productId = productId;
+        const newRating = await db.ratings.create(rating);
+        return createResponseSuccess(newRating);           
+     } catch (error) {
+            return createResponseError(error.status, error.message);
+    }
+    }
+
     module.exports = {
     getAll,
     create,
     update,
     destroy,
-    getById
+    getById,
+    addRating
 };
 

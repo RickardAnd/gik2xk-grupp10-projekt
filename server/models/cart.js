@@ -13,8 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         paid: {
-            // Ska vi ha detta?
-            type: DataTypes.BOOLEAN
+            // default false då den inte är betald när den skapas
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
 
         
