@@ -3,6 +3,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var path = require('path');
 var app = express();
+const cors = require('cors');
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
