@@ -23,6 +23,7 @@ const products = [
         stock: 100
     }
 ];
+// Lägg till ett seed för några användare också.
 
 async function testData() {
     try {

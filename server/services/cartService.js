@@ -12,7 +12,7 @@ const {
 async function addToCart (userId, productId) {
 
     try {
-        // Hitta eller skapa en cart för användaren
+        // Hitta eller skapa en cart för användaren.
         const [cart] = await db.cart.findOrCreate({
             where: { userId: userId }
         });  
@@ -24,7 +24,7 @@ async function addToCart (userId, productId) {
                 productId: productId
             }
     }) 
-    // Om den finns så öka antalet med 1. quantity i tabellen cart_row. save sparar i databasen
+    // Om den finns så öka antalet med 1 i quantity i tabellen cart_row. save sparar i databasen
     if(existingCartRow) {
         existingCartRow.quantity += 1;
         await existingCartRow.save();
@@ -45,11 +45,13 @@ async function addToCart (userId, productId) {
 
 }
 
+// Hämtar kundvagn till specifik user.
 async function getCartByUserId(userId) {
     try {
         // Kolla om det finns en befintlig cart.
         let cart = await db.cart.findOne({
-            where: { user_id: userId },
+            where: { userId: userId },
+            // Här slår vi ihop (include) cart med produkttabellen och hämtar produktinformation.
             include: [
                 {
                     model: db.products,
@@ -58,11 +60,11 @@ async function getCartByUserId(userId) {
             ]
         });
 
-        // Om inte
+        // Om inte 
         if (!cart) {
             return createResponseSuccess({ message: "Finns ingen kundvagn" });
         }
-
+        // Skickar tillbaka cart tillsammans med produktderaljer och antal 
         return createResponseSuccess(cart);
     } catch (error) {
         return createResponseError(error.status || 500, error.message);
