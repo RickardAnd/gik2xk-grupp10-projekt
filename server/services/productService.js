@@ -1,5 +1,6 @@
 const db = require("../models");
 const validate = require("validate.js");
+const { sequelize } = require("../models");
 
 // Hämtar helpers
 const {
@@ -46,11 +47,22 @@ async function getById(id) {
     try {
         const product = await db.products.findOne({
             where: { id },
-            // Vi tar bort tag och comment, men behåller user om ni vill visa 
-            // vem som lagt upp produkten. Annars kan include tas bort helt.
-            
-            // Kommenterade bort -FD
-            //include: [db.users] 
+            attributes: {
+                // Lägg till och skicka med dessa fält som är beräknade från ratingtabellen
+                // Snittbetyg (AVG) och antal betyg (COUNT)
+                include: [ 
+                [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'Medelbetyg'],
+                [sequelize.fn('COUNT', sequelize.col('ratings.id')), 'Antal betyg']
+                ]
+            },
+            // Kopplar ihop med ratingtabellen för att kunna räkna från den.
+            include: [{
+                model: db.ratings,
+                attributes: []
+            }],
+            // Räknar snittet per/produktId.
+            group: ['products.id']
+        
         });
 
         if (!product) {
