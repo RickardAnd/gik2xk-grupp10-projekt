@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 
 function App() {
@@ -6,10 +7,10 @@ function App() {
     <>
     <ul>
       <li>
-        <a href="/products/new">Startsida</a>
+        <Link to="/">Startsida</Link>
       </li>
       <li>
-        <a href="/products/new">Skapa ny produkt</a>
+        <Link to="/products/new">Skapa ny produkt</Link>
       </li>
     </ul>
     </>
