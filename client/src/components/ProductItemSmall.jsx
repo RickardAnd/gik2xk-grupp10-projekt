@@ -1,4 +1,4 @@
-function ProductItemSmall() {
+function ProductItemSmall({ product }) {
     return (
         <div className="product-card" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
             <img src={product.imageUrl} alt={product.title} style={{ width: '150px' }} />

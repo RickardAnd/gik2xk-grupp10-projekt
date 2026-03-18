@@ -26,6 +26,7 @@ const products = [
 
 async function testData() {
     try {
+        await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
         // Rensa tabellen först så vi inte får dubbletter varje gång vi kör filen
         await db.products.destroy({ where: {}, truncate: true });
         
