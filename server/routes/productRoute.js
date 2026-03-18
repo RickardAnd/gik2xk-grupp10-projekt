@@ -42,4 +42,14 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// Lägger till betyg till produkt
+router.post("/:id/addrating", (req, res) => {
+    const rating = req.body;
+    const productId = req.params.id;
+
+    productService.addRating(productId, rating).then((result) => {
+        res.status(result.status).json(result.data);
+        });
+})
+
 module.exports = router;

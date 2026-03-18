@@ -23,6 +23,28 @@ const products = [
         stock: 100
     }
 ];
+
+const users = [
+    {
+        firstName: "Fredrik",
+        lastName: "Hamilton",
+        email: "fredrik.ferrari@example.com",
+        phoneNr: "0701112233"
+    },
+    {
+        firstName: "Pär",
+        lastName: "Verstappen",
+        email: "par.redbull@example.com",
+        phoneNr: "0702223344"
+    },
+    {
+        firstName: "Rickard",
+        lastName: "Russel",
+        email: "rickard.mercedes@example.com",
+        phoneNr: "0703334455"
+    }
+];
+
 // Lägg till ett seed för några användare också.
 
 async function testData() {
@@ -36,9 +58,13 @@ async function testData() {
 >>>>>>> Rickard
         // Rensa tabellen först så vi inte får dubbletter varje gång vi kör filen
         await db.products.destroy({ where: {}, truncate: true });
+        await db.users.destroy({ where: {}, truncate: true });
         
         // Lägg in tröjorna
         await db.products.bulkCreate(products);
+
+        // lägg in användarena
+        await db.users.bulkCreate(users);
         
         console.log("Det gick bra.");
         process.exit();
