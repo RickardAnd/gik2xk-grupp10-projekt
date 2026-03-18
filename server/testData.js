@@ -49,13 +49,9 @@ const users = [
 
 async function testData() {
     try {
-<<<<<<< HEAD
-        
-        await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
 
-=======
-        await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
->>>>>>> Rickard
+         await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+
         // Rensa tabellen först så vi inte får dubbletter varje gång vi kör filen
         await db.products.destroy({ where: {}, truncate: true });
         await db.users.destroy({ where: {}, truncate: true });
