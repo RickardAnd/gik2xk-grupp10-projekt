@@ -51,11 +51,12 @@ async function getCartByUserId(userId) {
         // Kolla om det finns en befintlig cart.
         let cart = await db.cart.findOne({
             where: { userId: userId },
-            // Här slår vi ihop (include) cart med produkttabellen och hämtar produktinformation.
+            // Här slår vi ihop (include) cart med produkttabellen och hämtar produktinformation ( id, title, price).
             include: [
                 {
                     model: db.products,
-                    through: { attributes: ['quantity'] }
+                    attributes: [ 'id', 'title', 'price'],
+                    through: { attributes: ['quantity'] } // hämtar här också saldo från cart_row
                 }
             ]
         });
