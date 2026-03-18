@@ -27,9 +27,9 @@ var server = http.createServer(app);
 
 const db = require('../models/');
 db.sequelize
-/* .sync() */
+.sync()
 // Om vi vill rensa databasen
-.sync({alter: true})
+// .sync({force: true})
 .then(() => {
   server.listen(port, () => {
    console.log(`Server is running on port ${port}`);
