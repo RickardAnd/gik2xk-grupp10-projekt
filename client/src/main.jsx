@@ -6,6 +6,7 @@ import ProductEdit from "./views/ProductEdit.jsx";
 import Products from "./views/Products.jsx";
 import ProductDetail from "./views/ProductDetail.jsx";
 import Home from "./views/Home.jsx";
+import Carts from "./views/Carts.jsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -21,9 +22,13 @@ const router = createBrowserRouter([
       { path: '/products',
         element: <Products/>
       },
-      { path: '/products/1',
+      { path: '/products/:id',
         element: <ProductDetail/>
       },
+      { 
+        path: '/cart',
+        element: <Carts />
+      }
     ]
   },
 ])
