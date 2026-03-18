@@ -132,11 +132,27 @@ async function destroy(id) {
     }
 }
 
+// Funktion för att lägga till betyg
+async function addRating(productId, rating) {
+    
+    if(!productId) {
+        return createResponseError(422, "Produkt Id är obligatoriskt");
+    }
+    try {
+        rating.productId = productId;
+        const newRating = await db.ratings.create(rating);
+        return createResponseSuccess(newRating);           
+     } catch (error) {
+            return createResponseError(error.status, error.message);
+    }
+    }
+
     module.exports = {
     getAll,
     create,
     update,
     destroy,
-    getById
+    getById,
+    addRating
 };
 

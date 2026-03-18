@@ -6,15 +6,18 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        
-        name: {
-            type: DataTypes.STRING(50),
-            allowNull: false
-        },
 
         rating: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            validate: {
+                min: 1,
+                max: 5
+            },
+            allowNull: true
+        },
+        productID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     },
     { underscored: true }
