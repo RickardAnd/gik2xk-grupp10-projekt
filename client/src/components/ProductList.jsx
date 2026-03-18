@@ -1,15 +1,18 @@
 import ProductItemSmall from "./ProductItemSmall";
 import { useEffect, useState } from "react";
-import { getAll } from "../services/productService";
+import { getAll } from "../services/ProductService";
 
 function ProductList() {
         const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        getAll(pathname).then((products) => {
-            setProducts(products);
+        getAll().then((data) => {
+            console.log("Data från backend:", data);
+            if (data) {
+                setProducts(data);
+            }
         });
-    }, [pathname]);
+    }, []);
 
     return (  
     <ul>
