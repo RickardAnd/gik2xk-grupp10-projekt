@@ -2,24 +2,59 @@ const db = require('./models');
 
 const products = [
     {
-        title: "Arsenal Hemmatröja 2023/24",
+        title: "Dennis Bergkamp Hemmatröja",
         body: "Den klassiska röda tröjan.",
-        imageUrl: "https://images.unsplash.com/photo-1621275471763-2f7507326090?w=500", // Exempelbild
-        price: 899.00,
+        imageUrl: "http://localhost:4000/Bergkamp.png", // Exempelbild
+        price: 2899.00,
         stock: 50
     },
     {
-        title: "Real Madrid Bortatröja",
-        body: "Mörkblå.",
-        imageUrl: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500",
-        price: 949.50,
+        title: "Real Madrid Hemmatröja Zinedine Zidane",
+        body: "Helvit",
+        imageUrl: "http://localhost:4000/Zidane.png", // Exempelbild
+        price: 2949.50,
         stock: 30
     },
     {
-        title: "Sverige Hemmatröja",
-        body: "Den gula landslagströjan.",
-        imageUrl: "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?w=500",
-        price: 799.00,
+        title: "Klassisk Inter-tröja med Ronaldo",
+        body: "Ronaldo",
+        imageUrl: "http://localhost:4000/Ronaldo.png", // Exempelbild
+        price: 3799.00,
+        stock: 100
+    },
+    {
+        title: "Allesandro Del Piero Hemmatröja",
+        body: "Del Piero",
+        imageUrl: "http://localhost:4000/DelPiero.png", // Exempelbild
+        price: 2799.00,
+        stock: 100
+    },
+    {
+        title: "Hagi VM 1994 Tröja",
+        body: "Hagi",
+        imageUrl: "http://localhost:4000/Hagi.png", // Exempelbild
+        price: 5799.00,
+        stock: 100
+    },
+    {
+        title: "Erik Cantona Hemmatröja",
+        body: "Cantona",
+        imageUrl: "http://localhost:4000/Cantona.png", // Exempelbild
+        price: 1999.00,
+        stock: 100
+    },
+    {
+        title: "Figo Real Madrid Hemmatröja",
+        body: "Figo",
+        imageUrl: "http://localhost:4000/Figo.png", // Exempelbild
+        price: 3799.00,
+        stock: 100
+    },
+    {
+        title: "Roy Keane Manchester United Hemmatröja",
+        body: "Keane",
+        imageUrl: "http://localhost:4000/Keane.png", // Exempelbild
+        price: 3799.00,
         stock: 100
     }
 ];
