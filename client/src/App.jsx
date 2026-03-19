@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom"
 import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
-
+import UserSelect from './components/UserSelect';
 
 function App() {
 
@@ -17,6 +17,11 @@ function App() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link to="/" style={linkStyle}>Webbshoppen</Link>
             </Typography>
+
+            <div className="App">
+              <UserSelect />
+      
+            </div>
 
             {/* KNAPP Se alla produkter */}
             <Button color="inherit">
