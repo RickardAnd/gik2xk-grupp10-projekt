@@ -3,7 +3,7 @@ import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardA
 import { Link } from 'react-router-dom';
 
 function ProductItemSmall({ product }) {
-    const handleAddToCart = async (e) => { 
+    const handleAddToCart = async () => { 
         
         const userId = 1; // Hårdkodat tills vi har login
         const result = await addToCart(userId, product.id);
@@ -36,7 +36,8 @@ function ProductItemSmall({ product }) {
       <CardActions>
         <Button size="small" color="primary" variant="outlined" fullWidth onClick={(e) => {
           e.preventDefault(); // Hindrar Link-navigering när man trycker Köp
-          handleAddToCart(product.id);
+          e.stopPropagation();
+          handleAddToCart();
         }}>
           Lägg till
         </Button>
