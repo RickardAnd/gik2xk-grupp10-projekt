@@ -49,19 +49,35 @@ async function getById(id) {
             where: { id },
             attributes: {
                 // Lägg till och skicka med dessa fält som är beräknade från ratingtabellen
-                // Snittbetyg (AVG) och antal betyg (COUNT)
-                include: [ 
-                [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'Medelbetyg'],
-                [sequelize.fn('COUNT', sequelize.col('ratings.id')), 'Antal betyg']
-                ]
-            },
-            // Kopplar ihop med ratingtabellen för att kunna räkna från den.
-            include: [{
+                include: [
+                    [ 
+                    // .literal skickar med en ren SQL fråga till databasen. Subquery
+                    sequelize.literal(`(
+                        SELECT AVG(rating)
+                        FROM ratings
+                        WHERE ratings.product_id = products.id
+                        )`),
+                        // Vad fältet ska heta i objektet
+                        'Medelbetyg'
+                
+                    ],     
+                    [
+                    sequelize.literal(`(
+                        SELECT COUNT(*)
+                        FROM ratings
+                        WHERE ratings.product_id = products.id
+                        )`),
+                        'Antalbetyg'
+                    ]
+            ]
+        },
+
+            // Hämtar alla rader med betyg
+            include: [
+                {
                 model: db.ratings,
-                attributes: []
+                attributes: ['rating', 'createdAt']
             }],
-            // Räknar snittet per/produktId.
-            group: ['products.id']
         
         });
 
