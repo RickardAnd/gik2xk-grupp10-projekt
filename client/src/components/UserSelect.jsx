@@ -6,34 +6,45 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function UserSelect() {
-  const [age, setAge] = React.useState('');
+  const [user, setUser] = React.useState('');
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setUser(event.target.value);
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label"
-        sx={{
-            color: 'white',
-            fontWeight: 'bold'
-        }}>
-            Användare</InputLabel>
+   <Box sx={{ minWidth: 130 }}>
+      <FormControl fullWidth variant="standard"> 
+        <InputLabel 
+          id="demo-simple-select-label" 
+          sx={{ 
+            color: 'rgba(255, 255, 255, 0.8)', 
+            fontWeight: 500,
+            fontSize: '0.875rem', 
+            textTransform: 'uppercase', 
+            '&.Mui-focused': { color: 'white' }
+          }}
+        >
+          Användare
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Användare"
+          value={user}
           onChange={handleChange}
+          label="Användare"
+          disableUnderline 
+          sx={{
+            color: 'white',
+            fontWeight: 500,
+            fontSize: '0.875rem',
+            '& .MuiSvgIcon-root': { color: 'white' }, 
+            marginTop: '16px' 
+          }}
         >
-          {/* Lägg in våra användare här */}
-          <MenuItem value={1}>Användare 1</MenuItem>
-          <MenuItem value={2}>Användare 2</MenuItem>
-          <MenuItem value={3}>Användare 3</MenuItem>
-          <MenuItem value={4}>Användare 4</MenuItem>
-          <MenuItem value={5}>Användare 5</MenuItem>
+          <MenuItem value={10}>User 1</MenuItem> 
+          <MenuItem value={20}>User 2</MenuItem>
+          <MenuItem value={30}>User 3</MenuItem>
         </Select>
       </FormControl>
     </Box>
