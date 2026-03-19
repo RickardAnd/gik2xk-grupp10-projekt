@@ -65,8 +65,32 @@ async function getCartByUserId(userId) {
         if (!cart) {
             return createResponseSuccess({ message: "Finns ingen kundvagn" });
         }
-        // Skickar tillbaka cart tillsammans med produktderaljer och antal 
-        return createResponseSuccess(cart);
+        // Ändra till Json för valigt js objekt - enklare att ändra
+        const cartJson = cart.toJSON();
+        let totalSum = 0;
+
+        //mappa produkterna
+        cartJson.products = cartJson.products.map(product => {
+            // Kollar så produkten finns, om inte sätt till 0 för att inte krascha.
+            const qty = product.cart_row ? product.cart_row.quantity : 0;
+            const itemTotal = qty * product.price; // totalt produktpris
+            totalSum = totalSum + itemTotal; // totalt varukorgspris
+
+            // skickar tillbaka det vi vill med ett enkelt js objekt
+            return {
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                quantity: qty,       
+                itemTotal: itemTotal
+            };
+        });
+        // hela totalsumman på varukorgen
+        cartJson.totalSum = totalSum;
+
+
+        // Skickar tillbaka cart tillsammans med produktderaljer och antal och pris 
+        return createResponseSuccess(cartJson);
     } catch (error) {
         return createResponseError(error.status || 500, error.message);
     }
