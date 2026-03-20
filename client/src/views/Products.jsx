@@ -1,12 +1,10 @@
 import ProductList from "../components/ProductList";
+import { useParams, useLocation } from 'react-router-dom';
 
 function Products() {
-    return (
-        <div>
-            {/* Här lägger vi in komponenten som faktiskt hämtar och visar listan */}
-            <ProductList /> 
-        </div>
-    );
+  console.log(useParams(), useLocation());
+  const location = useLocation();
+  return <ProductList pathname={location.pathname} />;
 }
 
 export default Products;
