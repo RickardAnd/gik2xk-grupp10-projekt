@@ -1,7 +1,7 @@
 
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { addToCart } from "../services/cartService";
+import { addToCart } from "../services/CartService";
 
 function ProductItemSmall({ product }) {
     const handleAddToCart = async (e) => { 
