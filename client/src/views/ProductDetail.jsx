@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -10,7 +10,9 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import { addRating, getOne } from "../services/ProductService";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { addRating, getOne, remove } from "../services/ProductService";
 import { addToCart } from "../services/CartService";
 
 function ProductDetail() {
@@ -25,6 +27,26 @@ function ProductDetail() {
   const [ratingValue, setRatingValue] = useState(5);
   const [submittingRating, setSubmittingRating] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
+
+  async function handleDelete() {
+  const confirmDelete = window.confirm(`Är du säker på att du vill radera ${product.title}?`);
+  
+  if (confirmDelete) {
+    try {
+      const result = await remove(productId);
+      if (result) {
+        alert("Produkten har raderats.");
+        navigate("/products"); // Skickar tillbaka användaren till listan
+      } else {
+        setError("Kunde inte radera produkten.");
+      }
+    } catch (err) {
+      setError("Ett fel uppstod vid radering.");
+    }
+  }
+}
+
+  
 
   //Hämtar en specifik tröja
   async function fetchProduct() {
@@ -104,9 +126,32 @@ function ProductDetail() {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Button variant="text" onClick={() => navigate(-1)}>
+      <Button variant="outlined" onClick={() => navigate(-1)}>
         Tillbaka
       </Button>
+
+      {!loading && product && (
+        <Button 
+          variant="outlined"
+          sx={{ ml: 2 }}
+          color="success" 
+          startIcon={<EditIcon />}
+          component={Link}
+          to={`/products/${id}/edit`}
+        >
+          Redigera
+        </Button>
+      )}
+
+        <Button
+          variant="contained"
+          color="error"
+          startIcon={<DeleteIcon />}
+          onClick={handleDelete}
+          sx={{ ml: 2 }}
+        >
+          Ta bort
+        </Button>
 
       {loading && (
         <Typography sx={{ mt: 2 }} color="text.secondary">

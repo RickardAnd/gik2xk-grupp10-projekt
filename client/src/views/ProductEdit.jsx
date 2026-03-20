@@ -1,5 +1,12 @@
+import ProductForm from "../components/ProductForm";
+
 function ProductEdit() {
-    return  <h2>Product Edit</h2> ;
+    return (
+        <div>
+            
+            <ProductForm />
+        </div>
+    );
 }
 
 export default ProductEdit;
