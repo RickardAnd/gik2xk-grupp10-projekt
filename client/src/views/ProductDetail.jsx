@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link, useOutletContext } from "react-router-dom";
 import {
   Box,
   Button,
@@ -19,6 +19,7 @@ function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const productId = Number(id);
+  const { activeUserId } = useOutletContext();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -109,12 +110,16 @@ function ProductDetail() {
   async function handleAddToCart() {
     if (!Number.isFinite(productId)) return;
 
+    if (!activeUserId) {
+      alert("Vänligen välj en kund uppe i menyn först");
+      return;
+    }
+
     setAddingToCart(true);
     setError("");
     try {
-      // Temporärt: använd verkligt user-id senare (login saknas än).
-      const userId = 1;
-      const result = await addToCart(userId, productId);
+      const result = await addToCart(activeUserId, productId);
+      
       if (result) alert(`${product?.title ?? "Produkt"} har lagts till i kundvagnen!`);
       else setError("Kunde inte lägga till i kundvagnen.");
     } catch {
