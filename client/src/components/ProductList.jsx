@@ -24,10 +24,10 @@ function ProductList() {
 
             {products?.length > 0 ? (
                 // Skapade Grid-containern med mellanrum
-                <Grid container spacing={3}>
+                <Grid container spacing={2} alignItems="stretch">
                     {products.map((product) => (
-                        // Varje item tar upp hälften (xs={6}) för att få 2 i bredd
-                        <Grid item xs={6} key={`product_${product.id}`}>
+                        // Varje item tar upp hälften för att få 2 i bredd
+                        <Grid item xs={5} key={`product_${product.id}`} sx={{ display: 'flex', width: '40%' }}>
                             <ProductItemSmall product={product} />
                         </Grid>
                     ))}

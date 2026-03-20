@@ -2,56 +2,56 @@ const db = require('./models');
 
 const products = [
     {
-        title: "Dennis Bergkamp Hemmatröja",
+        title: "Dennis Bergkamp",
         body: "Den klassiska röda tröjan.",
         imageUrl: "http://localhost:4000/Bergkamp.png", // Exempelbild
         price: 2899.00,
         stock: 50
     },
     {
-        title: "Real Madrid Hemmatröja Zinedine Zidane",
+        title: "Zinedine Zidane",
         body: "Helvit",
         imageUrl: "http://localhost:4000/Zidane.png", // Exempelbild
         price: 2949.50,
         stock: 30
     },
     {
-        title: "Klassisk Inter-tröja med Ronaldo",
+        title: "Ronaldo",
         body: "Ronaldo",
         imageUrl: "http://localhost:4000/Ronaldo.png", // Exempelbild
         price: 3799.00,
         stock: 100
     },
     {
-        title: "Allesandro Del Piero Hemmatröja",
+        title: "Del Piero",
         body: "Del Piero",
         imageUrl: "http://localhost:4000/DelPiero.png", // Exempelbild
         price: 2799.00,
         stock: 100
     },
     {
-        title: "Hagi VM 1994 Tröja",
+        title: "Hagi",
         body: "Hagi",
         imageUrl: "http://localhost:4000/Hagi.png", // Exempelbild
         price: 5799.00,
         stock: 100
     },
     {
-        title: "Erik Cantona Hemmatröja",
+        title: "Erik Cantona",
         body: "Cantona",
         imageUrl: "http://localhost:4000/Cantona.png", // Exempelbild
         price: 1999.00,
         stock: 100
     },
     {
-        title: "Figo Real Madrid Hemmatröja",
+        title: "Figo Real Madrid",
         body: "Figo",
         imageUrl: "http://localhost:4000/Figo.png", // Exempelbild
         price: 3799.00,
         stock: 100
     },
     {
-        title: "Roy Keane Manchester United Hemmatröja",
+        title: "Roy Keane",
         body: "Keane",
         imageUrl: "http://localhost:4000/Keane.png", // Exempelbild
         price: 3799.00,
