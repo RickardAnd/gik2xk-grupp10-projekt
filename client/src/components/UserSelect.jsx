@@ -1,15 +1,27 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+
 export default function UserSelect() {
-  const [user, setUser] = React.useState('');
+  // Hämtar använare från databas
+  const [users, setUsers] = useState([]);
+  // vald användare
+  const [selectedUser, setSelectedUser] = useState('')
+
+  useEffect(() => {
+      fetch("http://localhost:4000/users") 
+      .then(res => res.json())
+      .then(data => setUsers(data))
+      .catch(err => console.error("Error:", err));
+  }, []);
+ 
 
   const handleChange = (event) => {
-    setUser(event.target.value);
+    setSelectedUser(event.target.value);
   };
 
   return (
@@ -25,12 +37,12 @@ export default function UserSelect() {
             '&.Mui-focused': { color: 'white' }
           }}
         >
-          Användare
+          Kund
         </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={user}
+          value={selectedUser}
           onChange={handleChange}
           label="Användare"
           disableUnderline 
@@ -42,9 +54,12 @@ export default function UserSelect() {
             marginTop: '16px' 
           }}
         >
-          <MenuItem value={10}>User 1</MenuItem> 
-          <MenuItem value={20}>User 2</MenuItem>
-          <MenuItem value={30}>User 3</MenuItem>
+        {users.map((user) => (
+        <MenuItem key={user.id} value={user.id}>
+          {/* Lägger in namn i dropdownen */}
+        {user.firstName}  
+        </MenuItem>
+        ))}
         </Select>
       </FormControl>
     </Box>
