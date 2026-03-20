@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-export default function UserSelect() {
+export default function UserSelect(props) {
   // Hämtar använare från databas
   const [users, setUsers] = useState([]);
   // vald användare
@@ -21,7 +21,17 @@ export default function UserSelect() {
  
 
   const handleChange = (event) => {
-    setSelectedUser(event.target.value);
+    
+    
+
+    const userId = Number(event.target.value); // hämtar id:t
+    console.log("Testar ID", userId);
+    
+    setSelectedUser(userId);
+  
+    if (props.onUserChange) {
+      props.onUserChange(userId);
+    }
   };
 
   return (
@@ -43,8 +53,8 @@ export default function UserSelect() {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={selectedUser}
-          onChange={handleChange}
-          label="Användare"
+          onChange={(e) => handleChange(e)}
+          label="Kund"
           disableUnderline 
           sx={{
             color: 'white',
