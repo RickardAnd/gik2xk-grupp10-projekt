@@ -18,9 +18,9 @@ function App() {
               <Link to="/" style={linkStyle}>Webbshoppen</Link>
             </Typography>
 
+            {/* Dropdown för användare */}
             <div className="App">
               <UserSelect />
-      
             </div>
 
             {/* KNAPP Se alla produkter */}
