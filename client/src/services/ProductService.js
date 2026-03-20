@@ -27,7 +27,7 @@ export async function getOne(id) {
 export async function create(product) {
     try {
         const response = await axios.post('/products', product);
-        if (response.status === 201) return response.data;
+        if (response.status === 200) return response.data;
         return null;
     } catch (e) {
         e?.response ? console.log(e.response) : console.log(e);

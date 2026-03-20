@@ -31,12 +31,11 @@ async function getAll() {
 async function create(product) {
     const invalidData = validate(product, constraints);
     if(invalidData) {
-        createResponseError(422, invalidData)
+        return createResponseError(422, invalidData)
     }
     try {
             const newPost = await db.products.create(product);
-            // Lägg till eventuella taggar
-            //await _addTagToPost(newPost, post.tag);
+            
             return createResponseSuccess(newPost);           
      } catch (error) {
             return createResponseError(error.status, error.message);
