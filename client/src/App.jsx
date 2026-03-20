@@ -1,8 +1,14 @@
 import { Link, Outlet } from "react-router-dom"
 import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
 import UserSelect from './components/UserSelect';
+import React, { useState } from 'react';
+
+
 
 function App() {
+  // vald anävdare och rätt varukorg
+  const [activeUserId, setActiveUserId] = useState(''); 
+  
 
     const linkStyle = { 
     textDecoration: "none", 
@@ -20,7 +26,11 @@ function App() {
 
             {/* Dropdown för användare */}
             <div className="App">
-              <UserSelect />
+             {/*  <UserSelect onUserChange={setActiveUserId}/> */}
+             <UserSelect onUserChange={(id) => {
+              console.log("Valt ID i App.jsx:", id);
+              setActiveUserId(id);
+              }} />
             </div>
 
             {/* KNAPP Se alla produkter */}
@@ -43,7 +53,7 @@ function App() {
 
       {/* Här renderas Home, Products, ProductDetail osv beroende på URL */}
       <Box sx={{ p: 3 }}> 
-        <Outlet />
+        <Outlet context={{ activeUserId}}/>
       </Box>
     </>
   )

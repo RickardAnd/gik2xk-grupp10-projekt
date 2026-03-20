@@ -1,20 +1,32 @@
 import { useEffect, useState } from "react";
 import { getCartByUserId } from "../services/CartService";
 import { Typography, Container, List, ListItem, ListItemText, Divider, Box } from "@mui/material";
+import { useOutletContext } from "react-router-dom";
 
+// tar emot ett userId
 function Carts() {
     const [cart, setCart] = useState(null);
-    const userId = 1; // Temporärt för att testa
+    // test -  const userId = 1;
+    const { activeUserId } = useOutletContext();
 
     useEffect(() => {
-        getCartByUserId(userId).then(data => {
+        if(activeUserId) {
+            // Kollar vad den hämtar
+            console.log("HÄR ÄR DATAN:", activeUserId); 
+            getCartByUserId(activeUserId).then(data => {
+            
             setCart(data);
-        });
-    }, []);
+            });
+        }
+    }, [activeUserId]);
 
     return (
         <Container>
             <Typography variant="h4" sx={{ my: 3 }}>Din Kundvagn</Typography>
+
+            {/* Om ingen användare är vald */}
+            {!activeUserId && <Typography>Välj en användare i menyn för att se vagnen</Typography>}
+
             {cart && cart.products && cart.products.length > 0 ? (
             <>
                 <List>

@@ -2,12 +2,20 @@
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { addToCart } from "../services/CartService";
+import { useOutletContext } from "react-router-dom";
 
 function ProductItemSmall({ product }) {
+    // Hämtar aktiv kund
+    const { activeUserId } = useOutletContext();
+
     const handleAddToCart = async (e) => { 
         
-        const userId = 1; // Hårdkodat tills vi har login
-        const result = await addToCart(userId, product.id);
+        if (!activeUserId) {
+          alert("Vänligen välj en kund uppe i menyn först")
+          return;
+        }
+        
+        const result = await addToCart(activeUserId, product.id);
         
         if (result) {
             alert(`${product.title} har lagts till i kundvagnen!`);

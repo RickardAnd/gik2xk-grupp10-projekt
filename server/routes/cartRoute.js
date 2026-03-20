@@ -16,7 +16,7 @@ router.get("/user/:id", async (req, res) => {
     const userId = req.params.id;
     const result = await cartService.getCartByUserId(userId);
     res.status(result.status).json(result.data);
-
+    
 });
 
 module.exports = router;
