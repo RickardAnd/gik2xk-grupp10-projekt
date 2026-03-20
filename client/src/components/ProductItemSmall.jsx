@@ -3,6 +3,7 @@ import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardA
 import { Link } from 'react-router-dom';
 
 function ProductItemSmall({ product }) {
+  // Tog bort e,
     const handleAddToCart = async () => { 
         
         const userId = 1; // Hårdkodat tills vi har login

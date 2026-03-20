@@ -26,6 +26,7 @@ function ProductDetail() {
   const [submittingRating, setSubmittingRating] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
 
+  //Hämtar en specifik tröja
   async function fetchProduct() {
     setLoading(true);
     setError("");
@@ -51,6 +52,7 @@ function ProductDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
+  // Läser in medelbetyg och antal betyg från product-objektet, och gör om till nummer eller null
   const ratingSummary = useMemo(() => {
     const avgRaw = product?.["Medelbetyg"];
     const countRaw = product?.["Antalbetyg"];
@@ -81,7 +83,7 @@ function ProductDetail() {
       setSubmittingRating(false);
     }
   }
-
+// Räknar ner lokalt
   async function handleAddToCart() {
     if (!Number.isFinite(productId)) return;
 
