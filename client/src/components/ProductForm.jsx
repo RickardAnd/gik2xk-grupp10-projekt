@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, TextField, Button, Typography, Box, Paper } from '@mui/material';
-import { create, update, getOne } from '../services/ProductService'; 
+import { create, update, getOne } from '../services/ProductService';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 
 function ProductForm() {
   const { id } = useParams(); // Hämtar ID om det finns i URL:en
   const navigate = useNavigate();
   const isEditMode = Boolean(id);
+
+  const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
 
   const [product, setProduct] = useState({
     title: '',
@@ -36,14 +39,19 @@ function ProductForm() {
     e.preventDefault();
     
     const result = isEditMode 
-      ? await update(product)  // Anropar din update-service
-      : await create(product); // Anropar din create-service
+      ? await update(product)  // Anropar update-service
+      : await create(product); // Anropar create-service
     
     if (result) {
-      alert(isEditMode ? "Tröjan har uppdaterats!" : "Tröjan har skapats!");
-      navigate('/products');
+      setOpenSuccessDialog(true);
     }
   };
+
+  // En funktion som sköter hoppet tillbaka till listan
+const handleCloseDialog = () => {
+  setOpenSuccessDialog(false);
+  navigate('/products');
+};
 
   return (
     <Container maxWidth="sm">
@@ -88,6 +96,20 @@ function ProductForm() {
           </Button>
         </Box>
       </Paper>
+
+      <Dialog open={openSuccessDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Framgång</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {isEditMode ? "Tröjan har uppdaterats!" : "Tröjan har skapats!"}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} autoFocus>
+            Gå till produktsidan
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

@@ -9,6 +9,13 @@ import {
   Paper,
   Rating,
   Typography,
+  Dialog, 
+  DialogActions, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,21 +36,28 @@ function ProductDetail() {
   const [submittingRating, setSubmittingRating] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
 
-  async function handleDelete() {
-  const confirmDelete = window.confirm(`Är du säker på att du vill radera ${product.title}?`);
-  
-  if (confirmDelete) {
-    try {
-      const result = await remove(productId);
-      if (result) {
-        alert("Produkten har raderats.");
-        navigate("/products"); // Skickar tillbaka användaren till listan
-      } else {
-        setError("Kunde inte radera produkten.");
-      }
-    } catch (err) {
-      setError("Ett fel uppstod vid radering.");
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openUserMissingDialog, setOpenUserMissingDialog] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+// När man trycker på "Ta bort" så öppnas en Dialog
+  const handleClickDelete = () => {
+  setOpenDeleteDialog(true);
+};
+
+// Denna körs när man trycker på "JA, RADERA" inuti Dialogen
+async function handleConfirmDelete() {
+  setOpenDeleteDialog(false); // Stäng rutan direkt
+  try {
+    const result = await remove(productId);
+    if (result) { 
+      // Navigerar till produktlistan
+      navigate("/products");
+    } else {
+      setError("Kunde inte radera produkten.");
     }
+  } catch (err) {
+    setError("Ett fel uppstod vid radering.");
   }
 }
 
@@ -108,26 +122,26 @@ function ProductDetail() {
   }
 // Räknar ner lokalt
   async function handleAddToCart() {
-    if (!Number.isFinite(productId)) return;
+  if (!Number.isFinite(productId)) return;
 
-    if (!activeUserId) {
-      alert("Vänligen välj en kund uppe i menyn först");
-      return;
-    }
-
-    setAddingToCart(true);
-    setError("");
-    try {
-      const result = await addToCart(activeUserId, productId);
-      
-      if (result) alert(`${product?.title ?? "Produkt"} har lagts till i kundvagnen!`);
-      else setError("Kunde inte lägga till i kundvagnen.");
-    } catch {
-      setError("Kunde inte lägga till i kundvagnen.");
-    } finally {
-      setAddingToCart(false);
-    }
+  if (!activeUserId) {
+    // Här öppnas en snygg Dialog
+    setOpenUserMissingDialog(true);
+    return;
   }
+
+  setAddingToCart(true);
+  try {
+    const result = await addToCart(activeUserId, productId);
+    if (result) {
+      setSnackbarOpen(true); // Visa snygg Snackbar
+    }
+  } catch {
+    setError("Kunde inte lägga till i kundvagnen.");
+  } finally {
+    setAddingToCart(false);
+  }
+}
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
@@ -152,7 +166,7 @@ function ProductDetail() {
           variant="contained"
           color="error"
           startIcon={<DeleteIcon />}
-          onClick={handleDelete}
+          onClick={handleClickDelete}
           sx={{ ml: 2 }}
         >
           Ta bort
@@ -319,6 +333,48 @@ function ProductDetail() {
           </Grid>
         </Grid>
       )}
+      {/* DIALOG FÖR RADERING */}
+  <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
+    <DialogTitle>Bekräfta radering</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Är du säker på att du vill radera <strong>{product?.title}</strong>? Detta går inte att ångra.
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => setOpenDeleteDialog(false)}>Avbryt</Button>
+      <Button onClick={handleConfirmDelete} color="error" variant="contained">
+        Ja, radera
+      </Button>
+    </DialogActions>
+  </Dialog>
+
+  {/* DIALOG FÖR SAKNAD ANVÄNDARE */}
+  <Dialog open={openUserMissingDialog} onClose={() => setOpenUserMissingDialog(false)}>
+    <DialogTitle>Välj kund</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Du måste välja en kund uppe i menyn innan du kan lägga till varor i kundvagnen.
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => setOpenUserMissingDialog(false)} color="primary" variant="contained">
+        Jag förstår
+      </Button>
+    </DialogActions>
+  </Dialog>
+
+  {/* SNACKBAR FÖR LYCKAT KÖP */}
+  <Snackbar 
+    open={snackbarOpen} 
+    autoHideDuration={3000} 
+    onClose={() => setSnackbarOpen(false)}
+    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+  >
+    <Alert severity="success" variant="filled" sx={{ width: '100%' }}>
+      {product?.title} har lagts till i kundvagnen!
+    </Alert>
+  </Snackbar>
     </Container>
   );
 }
