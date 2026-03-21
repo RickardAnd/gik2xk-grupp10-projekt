@@ -1,5 +1,9 @@
 
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions } from '@mui/material';
+import { 
+  Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions,
+  Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions 
+} from '@mui/material';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { addToCart } from "../services/CartService";
 import { useOutletContext } from "react-router-dom";
@@ -7,18 +11,20 @@ import { useOutletContext } from "react-router-dom";
 function ProductItemSmall({ product }) {
     // Hämtar aktiv kund
     const { activeUserId } = useOutletContext();
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [userMissingOpen, setUserMissingOpen] = useState(false);
 
     const handleAddToCart = async (e) => { 
         
         if (!activeUserId) {
-          alert("Vänligen välj en kund uppe i menyn först")
-          return;
+          setUserMissingOpen(true); // Öppna Dialog
+        return;
         }
         
         const result = await addToCart(activeUserId, product.id);
         
         if (result) {
-            alert(`${product.title} har lagts till i kundvagnen!`);
+            setSnackbarOpen(true); // Visa snygg Snackbar
         }
     };
 
@@ -69,6 +75,30 @@ function ProductItemSmall({ product }) {
           Lägg till
         </Button>
       </CardActions>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
+          {product.title} har lagts till i kundvagnen!
+        </Alert>
+      </Snackbar>
+
+      <Dialog open={userMissingOpen} onClose={() => setUserMissingOpen(false)}>
+        <DialogTitle>Ingen kund vald</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Vänligen välj en kund uppe i menyn först.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setUserMissingOpen(false)} autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 }
