@@ -42,6 +42,7 @@ async function create(product) {
     }
 }
 
+// Hämtar en product med tillhörande betyg
 async function getById(id) {
     try {
         const product = await db.products.findOne({
@@ -51,6 +52,7 @@ async function getById(id) {
                 include: [
                     [ 
                     // .literal skickar med en ren SQL fråga till databasen. Subquery
+                    // Medelvärdet räknas direkt i databasen
                     sequelize.literal(`(
                         SELECT AVG(rating)
                         FROM ratings
@@ -61,6 +63,7 @@ async function getById(id) {
                 
                     ],     
                     [
+                    // Räknar antal betyg, direkt i databasen
                     sequelize.literal(`(
                         SELECT COUNT(*)
                         FROM ratings
@@ -71,7 +74,7 @@ async function getById(id) {
             ]
         },
 
-            // Hämtar alla rader med betyg
+            // Includerar även alla rader med betyg
             include: [
                 {
                 model: db.ratings,
@@ -84,9 +87,9 @@ async function getById(id) {
             return createResponseError(404, 'Produkten hittades inte');
         }
 
-        // Om du har en formateringsfunktion för produkter, använd den här.
-        // Annars kan du returnera product direkt.
-        return createResponseSuccess(product); // Ändrad till sucsess iställer för ok
+        
+        // Returnerar produkt med alla betyg och uträkningar.
+        return createResponseSuccess(product); 
 
     } catch (error) {
         console.error("GetById error:", error);
@@ -161,13 +164,14 @@ async function destroy(id) {
     }
 }
 
-// Funktion för att lägga till betyg
+// Funktion för att lägga till betyg till produkterna
 async function addRating(productId, rating) {
-    
+    // Kontroll
     if(!productId) {
         return createResponseError(422, "Produkt Id är obligatoriskt");
     }
     try {
+        // Kopplar beyget till en specifik produkt
         rating.productId = productId;
         const newRating = await db.ratings.create(rating);
         return createResponseSuccess(newRating);           
