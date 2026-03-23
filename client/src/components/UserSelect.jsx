@@ -44,11 +44,11 @@ export default function UserSelect(props) {
         <InputLabel 
           id="demo-simple-select-label" 
           sx={{ 
-            color: 'rgba(255, 255, 255, 0.8)', 
+            color: '#C0A080', 
             fontWeight: 500,
             fontSize: '0.875rem', 
             textTransform: 'uppercase', 
-            '&.Mui-focused': { color: 'white' }
+            '&.Mui-focused': { color: '#C0A080' }
           }}
         >
           Kund
@@ -61,11 +61,11 @@ export default function UserSelect(props) {
           label="Kund"
           disableUnderline 
           sx={{
-            color: 'white',
+            color: '#C0A080',
             fontWeight: 500,
             fontSize: '0.875rem',
-            '& .MuiSvgIcon-root': { color: 'white' }, 
-            marginTop: '16px' 
+            '& .MuiSvgIcon-root': { color: '#C0A080' },
+            paddingBottom: '5px'
           }}
         >
         {users.map((user) => (
