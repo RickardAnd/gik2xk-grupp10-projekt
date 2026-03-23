@@ -12,25 +12,26 @@ const {
 async function addToCart (userId, productId) {
 
     try {
-        // Hitta eller skapa en cart för användaren.
+        // Hitta eller skapa en ny cart för Kund.
         const [cart] = await db.cart.findOrCreate({
             where: { userId: userId }
         });  
 
-        // kollar om produkten redan finnsi cart_row. Ska då matcha cartId från cart och productId från products.
+        // kollar om produkten redan finnsi cart_row. Den ska då matcha cartId från cart och productId från products.
         const existingCartRow = await db.cart_row.findOne({
             where: {
                 cartId: cart.id,
                 productId: productId
             }
     }) 
-    // Om den finns så öka antalet med 1 i quantity i tabellen cart_row. save sparar i databasen
+    // Om den finns så öka antalet(quantity) med 1 i tabellen cart_row. save sparar i databasen
     if(existingCartRow) {
         existingCartRow.quantity += 1;
         await existingCartRow.save();
         return createResponseSuccess(existingCartRow);
     } else {
-        // Om den inte redan finns så skapar vi en ny rad
+        // Här skapar vi en rad i cart_row som är kopplingstabellen mellan cart och products.
+        // Om den inte redan finns så skapar vi en ny rad med en produkt
         const newRow = await db.cart_row.create({
             cartId: cart.id,
             productId: productId,
@@ -45,7 +46,7 @@ async function addToCart (userId, productId) {
 
 }
 
-// Hämtar kundvagn till specifik user.
+// Hämtar kundvagn som tillhör en specifik kund (user).
 async function getCartByUserId(userId) {
     try {
         // Kolla om det finns en befintlig cart.
@@ -61,11 +62,12 @@ async function getCartByUserId(userId) {
             ]
         });
 
-        // Om inte 
+        // Om ingen kundvagn finns 
         if (!cart) {
             return createResponseSuccess({ message: "Finns ingen kundvagn" });
         }
-        // Ändra till Json för valigt js objekt - enklare att ändra
+        // Ändra till Json för vanligt js objekt - enklare att ändra
+        // Vi ska räkna ihop totalsumman/produkt och totalsumman/kundvagn
         const cartJson = cart.toJSON();
         let totalSum = 0;
 
