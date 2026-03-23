@@ -43,7 +43,7 @@ function ProductItemSmall({ product }) {
       >
         <CardMedia
           component="img"
-          height="140"
+          height="280"
           image={product.imageUrl || product.image_url}
           alt={product.title}
           sx={{ objectFit: 'contain', p: 1 }}
