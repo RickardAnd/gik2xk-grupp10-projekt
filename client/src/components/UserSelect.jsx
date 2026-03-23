@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import api from '../services/api';
 
 
 export default function UserSelect(props) {
@@ -13,10 +14,13 @@ export default function UserSelect(props) {
   const [selectedUser, setSelectedUser] = useState('')
 
   useEffect(() => {
-      fetch("http://localhost:4000/users") 
-      .then(res => res.json())
-      .then(data => setUsers(data))
-      .catch(err => console.error("Error:", err));
+       api.get("/users") 
+      .then(res => {
+        setUsers(res.data);
+      })
+      .catch(err => {
+        console.error("Error:", err)
+      });
   }, []);
  
 
