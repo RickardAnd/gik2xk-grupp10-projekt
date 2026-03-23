@@ -40,7 +40,7 @@ const theme = createTheme({
 });
 
 function App() {
-  // vald anävdare och rätt varukorg
+  // Aktivt KundId lagras här för kundvagnen.
   const [activeUserId, setActiveUserId] = useState(''); 
   
 
@@ -67,6 +67,7 @@ function App() {
              <UserSelect onUserChange={(id) => {
               // Koll så det funkar
               console.log("Valt ID i App.jsx:", id);
+              // sätter aktivt kundid.
               setActiveUserId(id);
               }} />
             </div>
@@ -92,6 +93,8 @@ function App() {
 
       {/* Här renderas Home, Products, ProductDetail osv beroende på URL */}
       <Box sx={{ p: 3 }}> 
+        {/* Vi vill komma åt activeUserId i products och cart viewn för att hålla koll på kunvagnen */}
+        {/* Outlet context låter oss dela det från App.jsx */}
         <Outlet context={{ activeUserId}}/>
       </Box>
     </ThemeProvider>
