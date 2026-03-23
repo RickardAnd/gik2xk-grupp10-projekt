@@ -1,4 +1,6 @@
 
+// Importerar nödvändiga komponenter och hooks från React och Material-UI
+
 import { 
   Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions,
   Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions 
@@ -29,7 +31,7 @@ function ProductItemSmall({ product }) {
     };
 
     return (
-      // Använder Card för att skapa en kort layout för varje produkt
+      // Använder Card för att skapa ett kort för varje produkt
         <Card sx={{ 
           width: '100%',
           height: '100%',

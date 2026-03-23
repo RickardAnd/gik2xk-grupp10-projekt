@@ -1,4 +1,6 @@
+
 // Importerar nödvändiga komponenter och hooks från React och Material-UI
+
 import ProductItemSmall from "./ProductItemSmall";
 import { useEffect, useState } from "react";
 import { getAll } from "../services/ProductService";
