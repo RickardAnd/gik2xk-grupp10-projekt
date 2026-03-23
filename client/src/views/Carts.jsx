@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { getCartByUserId } from "../services/CartService";
 import { Typography, Container, List, ListItem, ListItemText, Divider, Box } from "@mui/material";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom"; // För att hämta activeUserId
 
 // tar emot ett userId
 function Carts() {
     const [cart, setCart] = useState(null);
-    // test -  const userId = 1;
+    // Här tas KundId emot från App.jsx
     const { activeUserId } = useOutletContext();
 
     useEffect(() => {
         if(activeUserId) {
-            // Kollar vad den hämtar
+            // Kollar vad den hämtar (test)
             console.log("HÄR ÄR DATAN:", activeUserId); 
             getCartByUserId(activeUserId).then(data => {
             
