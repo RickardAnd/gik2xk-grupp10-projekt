@@ -26,8 +26,8 @@ function App() {
 
             {/* Dropdown för användare */}
             <div className="App">
-             {/*  <UserSelect onUserChange={setActiveUserId}/> */}
              <UserSelect onUserChange={(id) => {
+              // Koll så det funkar
               console.log("Valt ID i App.jsx:", id);
               setActiveUserId(id);
               }} />
