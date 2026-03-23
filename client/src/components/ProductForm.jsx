@@ -1,14 +1,17 @@
+// Importerar nödvändiga komponenter och hooks från React och Material-UI
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, TextField, Button, Typography, Box, Paper } from '@mui/material';
 import { create, update, getOne } from '../services/ProductService';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 
+// En funktion som hanterar både skapande och redigering av produkter
 function ProductForm() {
   const { id } = useParams(); // Hämtar ID om det finns i URL:en
   const navigate = useNavigate();
   const isEditMode = Boolean(id);
 
+  // State för att hantera produktdata och dialogöppning
   const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
 
   const [product, setProduct] = useState({
@@ -30,11 +33,14 @@ function ProductForm() {
     }
   }, [id, isEditMode]);
 
+  // En funktion som hanterar ändringar i formuläret och uppdaterar state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
 
+  // En funktion som hanterar formulärets "skickande" och, 
+  // anropar rätt service beroende på om det är edit eller create
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -47,7 +53,7 @@ function ProductForm() {
     }
   };
 
-  // En funktion som sköter hoppet tillbaka till listan
+  // En funktion som sköter hoppet tillbaka till listan av produkter
 const handleCloseDialog = () => {
   setOpenSuccessDialog(false);
   navigate('/products');
@@ -60,6 +66,7 @@ const handleCloseDialog = () => {
           {isEditMode ? 'Redigera tröja' : 'Lägg till ny tröja'}
         </Typography>
         
+        {/* Formuläret för att skapa eller redigera en produkt, med TextFields för varje fält */}
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             fullWidth label="Titel" name="title"
@@ -91,12 +98,14 @@ const handleCloseDialog = () => {
             {isEditMode ? 'Spara ändringar' : 'Skapa produkt'}
           </Button>
 
+          {/* Knapp för att avbryta och gå tillbaka till produktsidan utan att spara ändringar */}
           <Button fullWidth sx={{ mt: 1 }} onClick={() => navigate('/products')}>
             Avbryt
           </Button>
         </Box>
       </Paper>
 
+        {/* Dialog som visas när en produkt har skapats eller uppdaterats framgångsrikt */}
       <Dialog open={openSuccessDialog} onClose={handleCloseDialog}>
         <DialogTitle>Framgång</DialogTitle>
         <DialogContent>

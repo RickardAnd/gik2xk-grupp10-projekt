@@ -1,3 +1,4 @@
+// Importerar nödvändiga komponenter och hooks från React och Material-UI
 import ProductItemSmall from "./ProductItemSmall";
 import { useEffect, useState } from "react";
 import { getAll } from "../services/ProductService";
@@ -16,18 +17,30 @@ function ProductList() {
     }, []);
 
     return (  
-    // Körde med container här ist
+    // Körde med container här ist för att få bättre kontroll
+    // över layouten och centrerad text
         <Container sx={{ mt: 4 }}>
             <Typography variant="h4" component="h2" gutterBottom align="center">
                 Våra Fotbollströjor
             </Typography>
 
             {products?.length > 0 ? (
-                // Skapade Grid-containern med mellanrum
-                <Grid container spacing={2} alignItems="stretch">
+                // Skapade Grid-containern med mellanrum 
+                <Grid 
+                container 
+                spacing={3} 
+                justifyContent="center" 
+                alignItems="stretch"
+                >
                     {products.map((product) => (
-                        // Varje item tar upp hälften för att få 2 i bredd
-                        <Grid item xs={5} key={`product_${product.id}`} sx={{ display: 'flex', width: '40%' }}>
+                        // Skapade Grid-item för varje produkt
+                        <Grid item key={`product_${product.id}`} 
+                        xs={12} // 1 i bredd på små skärmar
+                        sm={6} // 2 i bredd på medelstora skärmar
+                        md={4} // 3 i bredd på större skärmar
+                        display="flex"
+                        flexDirection="column"
+                        >
                             <ProductItemSmall product={product} />
                         </Grid>
                     ))}
