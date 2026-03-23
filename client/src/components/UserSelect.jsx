@@ -6,7 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import api from '../services/api';
 
-
+// Detta är en funktion för att kunna välja kund i en dropdownmeny. 
+// Vi kan då hålla koll på olika kundvagnar.
 export default function UserSelect(props) {
   // Hämtar använare från databas
   const [users, setUsers] = useState([]);
@@ -26,8 +27,6 @@ export default function UserSelect(props) {
 
   const handleChange = (event) => {
     
-    
-
     const userId = Number(event.target.value); // hämtar id:t
     console.log("Testar ID", userId);
     
@@ -70,7 +69,7 @@ export default function UserSelect(props) {
         >
         {users.map((user) => (
         <MenuItem key={user.id} value={user.id}>
-          {/* Lägger in namn i dropdownen */}
+          {/* Lägger in namn i dropdownen, skulle kunna ha id också men snyggast såhär */}
         {user.firstName}  
         </MenuItem>
         ))}
