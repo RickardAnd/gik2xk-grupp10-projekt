@@ -98,9 +98,9 @@ async function getById(id) {
 }
 
 async function update(data, id) {
-    // Validera inkommande data mot dina constraints
+    // Validera inkommande data mot våra constraints
     const invalidData = validate(data, constraints);
-    
+    // Im inge ID
     if (!id) {
         return createResponseError(422, 'ID är obligatoriskt');
     }
@@ -110,17 +110,11 @@ async function update(data, id) {
     }
 
     try {
-        // Kontrollera om objektet finns (Använd db.products om det är shoppen, db.Post om det är bloggen)
+        // Kontrollera om produkten finns)
         const existingItem = await db.products.findOne({ where: { id } });
         
         if (!existingItem) {
             return createResponseError(404, 'Objektet kunde inte hittas');
-        }
-
-        // Hantera kopplingar (t.ex. taggar). 
-        // OBS: Se till att det står data.tags (plural) om det är det du skickar från frontend
-        if (data.tags) {
-            await _addTagToPost(existingItem, data.tags);
         }
 
         // Utför själva uppdateringen i databasen
