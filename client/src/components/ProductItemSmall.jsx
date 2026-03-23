@@ -9,7 +9,7 @@ import { addToCart } from "../services/CartService";
 import { useOutletContext } from "react-router-dom";
 
 function ProductItemSmall({ product }) {
-    // Hämtar aktiv kund
+    // Hämtar "aktiv" kund 
     const { activeUserId } = useOutletContext();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [userMissingOpen, setUserMissingOpen] = useState(false);
