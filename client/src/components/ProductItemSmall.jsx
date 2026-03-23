@@ -43,7 +43,7 @@ function ProductItemSmall({ product }) {
       >
         <CardMedia
           component="img"
-          height="140"
+          height="280"
           image={product.imageUrl || product.image_url}
           alt={product.title}
           sx={{ objectFit: 'contain', p: 1 }}
@@ -52,7 +52,7 @@ function ProductItemSmall({ product }) {
           <Typography variant="subtitle1"
           sx={{ 
             fontWeight: 'bold',
-            height: '2.5em',
+            height: '3em',
             overflow: 'hidden',
             lineHeight: '1.2em'
             }}>
