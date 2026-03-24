@@ -1,7 +1,8 @@
+
+// Hanterar alla API-anrop relaterade till användare
 const router = require("express").Router();
 const db = require('../models');
 const validate = require('validate.js');
-const productService = require('../services/productService');
 
 const constraints = {
     email: {
@@ -33,12 +34,6 @@ const constraints = {
   }
 };
 
-router.get('/:id/products', (req, res) => {
-    const id = req.params.id;
-    productService.getByAuthor(id).then((result) => {
-        res.status(result.status).json(result.data);
-    });
-});
 
 router.get('/', (req, res) => {
     db.users.findAll().then((result) => {
