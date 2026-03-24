@@ -3,6 +3,7 @@ import ProductCustomerRatings from "./ProductCustomerRatings";
 import ProductRatingForm from "./ProductRatingForm";
 import ProductRatingSummary from "./ProductRatingSummary";
 
+// Visar en stor ruta med all info om en produkt (bild, pris, betyg och köp-knapp)
 function ProductItemLarge({
   product,
   ratingSummary,
