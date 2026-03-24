@@ -8,7 +8,7 @@ const linkStyle = {
   textDecoration: "none",
   color: "inherit",
 };
-
+// Skapar ett tema med anpassade färger och typsnitt
 const theme = createTheme({
   palette: {
     primary: { main: "#1C1C1C" },

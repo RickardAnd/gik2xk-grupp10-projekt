@@ -2,6 +2,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Container, Grid, Paper, Stack, Typography } from "@mui/material";
 import heroImg from "../assets/images/Grusplan.jpg";
 
+// Startsidan med en välkomnande bild, rubrik och knappar som leder till produktlistan och kundvagnen
 function Home() {
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 6 }}>
@@ -21,14 +22,14 @@ function Home() {
                 display: "block",
               }}
             />
-
+            {/* Rubrik och beskrivning */}
             <Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 2 }}>
               Hitta din nästa favorittröja
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
               Upptäck fotbollströjor med tydlig info, lagersaldo och betyg från andra supportrar.
             </Typography>
-
+                {/* Knappar som leder till produktlistan och kundvagnen*/}
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <Button
                 component={RouterLink}
@@ -48,7 +49,7 @@ function Home() {
               </Button>
             </Stack>
           </Grid>
-
+                
           <Grid item xs={12} md={6}>
             <Box
               sx={{
