@@ -1,5 +1,7 @@
 import axios from './api';
 
+// Hämtar kundvagnen för en specifik användare
+
 export const getCartByUserId = async (userId) => {
     try {
         const response = await axios.get(`/cart/user/${userId}`);
@@ -10,6 +12,7 @@ export const getCartByUserId = async (userId) => {
     }
 };
 
+// Lägger till en produkt i kundvagnen för en specifik användare
 export const addToCart = async (userId, productId) => {
     try {
         const response = await axios.post(`/cart/add`, { userId, productId });
