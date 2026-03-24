@@ -1,4 +1,6 @@
 
+// Importerar nödvändiga komponenter och hooks från React och Material-UI
+
 import { 
   Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions,
   Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions 
@@ -24,23 +26,27 @@ function ProductItemSmall({ product }) {
         const result = await addToCart(activeUserId, product.id);
         
         if (result) {
-            setSnackbarOpen(true); // Visa snygg Snackbar
+            setSnackbarOpen(true); // Visar Snackbar
         }
     };
 
     return (
+      // Använder Card för att skapa ett kort för varje produkt
         <Card sx={{ 
           width: '100%',
           height: '100%',
           display: 'flex', 
           flexDirection: 'column',
-          justifyContent: 'space-between' 
-          }}>
+          justifyContent: 'space-between',
+          }}
+          >
+      {/* CardActionArea gör hela kortet klickbart och länkar till produktens detaljsida */}
       <CardActionArea 
       component={Link} 
       to={`/products/${product.id}`}
       sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
       >
+        {/* CardMedia visar produktbilden, med objektanpassning för att bibehålla bildförhållandet */}
         <CardMedia
           component="img"
           height="280"
@@ -63,7 +69,9 @@ function ProductItemSmall({ product }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      
+
+      {/* Knapp för att lägga till produkten i kundvagnen, 
+          som också hanterar användarvalidering och visar feedback via Snackbar och Dialog */}
       <CardActions sx={{ mt: 'auto' }}>
         <Button 
           size="small" 
@@ -84,8 +92,8 @@ function ProductItemSmall({ product }) {
         <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
           {product.title} har lagts till i kundvagnen!
         </Alert>
-      </Snackbar>
-
+      </Snackbar> 
+     {/* Dialog som visas när ingen kund är vald om nån försöker lägga till en produkt i kundvagnen */}
       <Dialog open={userMissingOpen} onClose={() => setUserMissingOpen(false)}>
         <DialogTitle>Ingen kund vald</DialogTitle>
         <DialogContent>
