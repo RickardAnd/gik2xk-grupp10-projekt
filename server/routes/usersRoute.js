@@ -34,13 +34,14 @@ const constraints = {
   }
 };
 
-
+// Hämtar alla användare
 router.get('/', (req, res) => {
     db.users.findAll().then((result) => {
         res.send(result);
     });
 });
 
+// Hämtar en specifik användare baserat på ID
 router.get('/:id', (req, res) => {
     const id = req.params.id;
 
@@ -55,6 +56,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// Skapar en ny användare
 router.post('/', (req, res) => {
     const user = req.body;
     const invalidData = validate(user, constraints);
@@ -67,6 +69,7 @@ router.post('/', (req, res) => {
   } 
 });
 
+// Uppdaterar en befintlig användare baserat på ID
 router.put('/:id', (req, res) => {
     const user = req.body;
     const invalidData = validate(user, constraints);
@@ -83,6 +86,7 @@ router.put('/:id', (req, res) => {
    }
 });
 
+// Raderar en användare baserat på ID
 router.delete('/', (req, res) => {
     db.users.destroy({ 
         where: {id: req.body.id}
