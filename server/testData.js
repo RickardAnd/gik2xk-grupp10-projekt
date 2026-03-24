@@ -77,13 +77,8 @@ const users = [
         lastName: "Russel",
         email: "rickard.mercedes@example.com",
         phoneNr: "0703334455"
-    },
-    {
-        firstName: "Test",
-        lastName: "Testsson",
-        email: "test.mercedes@example.com",
-        phoneNr: "11111111"
     }
+    
 
 ];
 
