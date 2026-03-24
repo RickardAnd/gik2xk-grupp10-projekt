@@ -1,13 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, Link, useOutletContext } from "react-router-dom";
 import {
-  Box,
   Button,
   Container,
-  Divider,
-  Grid,
-  Paper,
-  Rating,
   Typography,
   Dialog, 
   DialogActions, 
@@ -21,6 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { addRating, getOne, remove } from "../services/ProductService";
 import { addToCart } from "../services/CartService";
+import ProductItemLarge from "../components/ProductItemLarge";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -32,6 +28,7 @@ function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Betyget användaren väljer.
   const [ratingValue, setRatingValue] = useState(5);
   const [submittingRating, setSubmittingRating] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
@@ -40,30 +37,29 @@ function ProductDetail() {
   const [openUserMissingDialog, setOpenUserMissingDialog] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-// När man trycker på "Ta bort" så öppnas en Dialog
+  // Öppnar bekräftelse-rutan för radering.
   const handleClickDelete = () => {
   setOpenDeleteDialog(true);
 };
 
-// Denna körs när man trycker på "JA, RADERA" inuti Dialogen
+  // Bekräftar radering och tar användaren tillbaka till listan.
 async function handleConfirmDelete() {
-  setOpenDeleteDialog(false); // Stäng rutan direkt
+  setOpenDeleteDialog(false);
   try {
     const result = await remove(productId);
     if (result) { 
-      // Navigerar till produktlistan
       navigate("/products");
     } else {
       setError("Kunde inte radera produkten.");
     }
-  } catch (err) {
+  } catch {
     setError("Ett fel uppstod vid radering.");
   }
 }
 
   
 
-  //Hämtar en specifik tröja
+  // Hämtar en specifik produkt via `productId`.
   async function fetchProduct() {
     setLoading(true);
     setError("");
@@ -89,7 +85,7 @@ async function handleConfirmDelete() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
-  // Läser in medelbetyg och antal betyg från product-objektet, och gör om till nummer eller null
+  // Räkna ut snittbetyg och antal betyg från produktdata.
   const ratingSummary = useMemo(() => {
     const avgRaw = product?.["Medelbetyg"];
     const countRaw = product?.["Antalbetyg"];
@@ -120,12 +116,11 @@ async function handleConfirmDelete() {
       setSubmittingRating(false);
     }
   }
-// Räknar ner lokalt
+  // Lägg till i kundvagn (kräver vald kund).
   async function handleAddToCart() {
   if (!Number.isFinite(productId)) return;
 
   if (!activeUserId) {
-    // Här öppnas en snygg Dialog
     setOpenUserMissingDialog(true);
     return;
   }
@@ -134,7 +129,7 @@ async function handleConfirmDelete() {
   try {
     const result = await addToCart(activeUserId, productId);
     if (result) {
-      setSnackbarOpen(true); // Visa snygg Snackbar
+      setSnackbarOpen(true);
     }
   } catch {
     setError("Kunde inte lägga till i kundvagnen.");
@@ -185,155 +180,19 @@ async function handleConfirmDelete() {
       )}
 
       {!loading && product && (
-        <Grid container spacing={3} sx={{ mt: 1 }}>
-          <Grid item xs={12} md={6}>
-            <Paper variant="outlined" sx={{ p: 2 }}>
-              {product.imageUrl ? (
-                <Box
-                  component="img"
-                  src={product.imageUrl}
-                  alt={product.title}
-                  sx={{
-                    width: "100%",
-                    maxHeight: 360,
-                    objectFit: "contain",
-                    mb: 2,
-                    borderRadius: 1,
-                  }}
-                />
-              ) : (
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: 320,
-                    border: "1px dashed",
-                    borderColor: "divider",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    mb: 2,
-                    borderRadius: 1,
-                  }}
-                >
-                  <Typography color="text.secondary">Ingen bild</Typography>
-                </Box>
-              )}
-
-              <Typography variant="h4" sx={{ fontWeight: "bold" }} gutterBottom>
-                {product.title}
-              </Typography>
-
-              <Typography
-                variant="body1"
-                sx={{ whiteSpace: "pre-wrap" }}
-                color="text.secondary"
-              >
-                {product.body}
-              </Typography>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <Paper variant="outlined" sx={{ p: 2 }}>
-              <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-                {product.price} kr
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Lager: {product.stock ?? "okänt"}
-              </Typography>
-
-              <Divider sx={{ my: 2 }} />
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                  Betyg
-                </Typography>
-
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 0.5 }}>
-                  <Rating
-                    value={ratingSummary.avg ?? 0}
-                    precision={0.5}
-                    readOnly
-                    size="large"
-                  />
-                  <Typography variant="body2" color="text.secondary">
-                    {ratingSummary.avg != null ? ratingSummary.avg.toFixed(1) : "0.0"} / 5
-                  </Typography>
-                </Box>
-
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                  {ratingSummary.count != null && ratingSummary.count > 0
-                    ? `${ratingSummary.count} betyg`
-                    : "Inga betyg ännu"}
-                </Typography>
-              </Box>
-
-              <Box component="form" onSubmit={handleSubmitRating} sx={{ mb: 2 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1 }}>
-                  Sätt ditt betyg
-                </Typography>
-                <Rating
-                  name="rating"
-                  value={ratingValue}
-                  onChange={(_event, newValue) => {
-                    if (newValue != null) setRatingValue(newValue);
-                  }}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{ mt: 1 }}
-                  disabled={submittingRating}
-                >
-                  {submittingRating ? "Sparar..." : "Spara betyg"}
-                </Button>
-              </Box>
-
-              <Divider sx={{ my: 2 }} />
-
-              <Button
-                variant="contained"
-                onClick={handleAddToCart}
-                disabled={addingToCart}
-                fullWidth
-                sx={{ mb: 2 }}
-              >
-                {addingToCart ? "Lägger till..." : "Lägg till i kundvagnen"}
-              </Button>
-
-              <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1 }}>
-                Betyg från kunder
-              </Typography>
-
-              {ratings.length > 0 ? (
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                  {ratings.map((r) => (
-                    <Paper
-                      key={`${r.rating}_${String(r.createdAt)}`}
-                      variant="outlined"
-                      sx={{ p: 1 }}
-                    >
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                        <Rating value={r.rating} readOnly size="small" />
-                        <Typography variant="body2" color="text.secondary">
-                          {r.createdAt
-                            ? new Date(r.createdAt).toLocaleDateString("sv-SE")
-                            : ""}
-                        </Typography>
-                      </Box>
-                    </Paper>
-                  ))}
-                </Box>
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  Inga betyg ännu.
-                </Typography>
-              )}
-            </Paper>
-          </Grid>
-        </Grid>
+        <ProductItemLarge
+          product={product}
+          ratingSummary={ratingSummary}
+          ratingValue={ratingValue}
+          onRatingChange={setRatingValue}
+          onSubmitRating={handleSubmitRating}
+          submittingRating={submittingRating}
+          onAddToCart={handleAddToCart}
+          addingToCart={addingToCart}
+          ratings={ratings}
+        />
       )}
-      {/* DIALOG FÖR RADERING */}
+      {/* Bekräftelse vid radering */}
   <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
     <DialogTitle>Bekräfta radering</DialogTitle>
     <DialogContent>
@@ -349,7 +208,7 @@ async function handleConfirmDelete() {
     </DialogActions>
   </Dialog>
 
-  {/* DIALOG FÖR SAKNAD ANVÄNDARE */}
+  {/* När ingen kund är vald */}
   <Dialog open={openUserMissingDialog} onClose={() => setOpenUserMissingDialog(false)}>
     <DialogTitle>Välj kund</DialogTitle>
     <DialogContent>
@@ -364,7 +223,7 @@ async function handleConfirmDelete() {
     </DialogActions>
   </Dialog>
 
-  {/* SNACKBAR FÖR LYCKAT KÖP */}
+  {/* Snackbar efter lyckad tillägg */}
   <Snackbar 
     open={snackbarOpen} 
     autoHideDuration={3000} 
