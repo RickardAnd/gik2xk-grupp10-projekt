@@ -1,6 +1,7 @@
 import ProductList from "../components/ProductList";
 import { useParams, useLocation } from 'react-router-dom';
 
+// Visar produktlistan
 function Products() {
   console.log(useParams(), useLocation());
   const location = useLocation();
