@@ -33,7 +33,7 @@ function ProductItemSmall({ product }) {
     return (
       // Använder Card för att skapa ett kort för varje produkt
         <Card sx={{ 
-          width: '100%',
+          width: '270px',
           height: '100%',
           display: 'flex', 
           flexDirection: 'column',
