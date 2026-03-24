@@ -35,7 +35,7 @@ function ProductItemLarge({
           ) : (
             <Box
               sx={{
-                width: "100%",
+                width: "40%",
                 height: 320,
                 border: "1px dashed",
                 borderColor: "divider",
@@ -56,7 +56,11 @@ function ProductItemLarge({
 
           <Typography
             variant="body1"
-            sx={{ whiteSpace: "pre-wrap" }}
+            sx={{ 
+              whiteSpace: "pre-wrap",
+              maxWidth: "50ch",
+              wordBreak: "break-word",
+            }}
             color="text.secondary"
           >
             {product.body}
